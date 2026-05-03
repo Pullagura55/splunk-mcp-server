@@ -10,12 +10,12 @@ from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 
 # Import all tool functions
-from tools.search import search_splunk_impl
-from tools.indexes import get_splunk_indexes_impl
-from tools.apps import get_splunk_apps_impl
-from tools.alerts import create_splunk_alert_impl
-from tools.events import send_to_splunk_impl
-from tools.analysis import analyze_splunk_logs_impl
+from mcp_tools.search import search_splunk_impl
+from mcp_tools.indexes import get_splunk_indexes_impl
+from mcp_tools.apps import get_splunk_apps_impl
+from mcp_tools.alerts import create_splunk_alert_impl
+from mcp_tools.events import send_to_splunk_impl
+from mcp_tools.analysis import analyze_splunk_logs_impl
 
 # Initialize MCP server
 server = Server("splunk-mcp-server")
