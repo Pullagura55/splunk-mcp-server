@@ -75,6 +75,10 @@ splunk.log
 # Docker
 .dockerignore.bak
 
+# Claude Code settings
+.claude/settings.local.json
+settings.local.json
+
 # MCP Server specific
 mcp-server.log
 *.mcp
