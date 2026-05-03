@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(pip install *)",
+      "Bash(python -m splunk_mcp_server.cli test-connection)",
+      "Bash(python -m splunk_mcp_server.cli search \"index=main error\" --max-results=3)",
+      "Bash(timeout 10s python -m splunk_mcp_server.main)",
+      "Bash(timeout 5s python -m splunk_mcp_server.main)"
+    ]
+  }
+}

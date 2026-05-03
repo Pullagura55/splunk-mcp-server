@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  splunk-mcp-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: splunk-mcp-server
+    restart: unless-stopped
+    environment:
+      # Splunk Configuration (override in .env file)
+      - SPLUNK_HOST=${SPLUNK_HOST:-localhost}
+      - SPLUNK_PORT=${SPLUNK_PORT:-8089}
+      - SPLUNK_SCHEME=${SPLUNK_SCHEME:-https}
+      - SPLUNK_USERNAME=${SPLUNK_USERNAME:-admin}
+      - SPLUNK_PASSWORD=${SPLUNK_PASSWORD:-changeme}
+      - SPLUNK_TOKEN=${SPLUNK_TOKEN:-}
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN:-}
+      - SPLUNK_HEC_PORT=${SPLUNK_HEC_PORT:-8088}
+    env_file:
+      - ../resources/.env
+    volumes:
+      # Mount .env file as read-only
+      - ../resources/.env:/app/.env:ro
+      # Optional: Mount logs directory for persistence
+      - ../resources/logs:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import main; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Note: No port mapping needed for stdio MCP server
+    # But you can add ports if you extend this for HTTP API later
+    # ports:
+    #   - "8000:8000"
+
+  # Optional: Add a Splunk instance for testing
+  # Uncomment the section below if you want a local Splunk instance
+  #
+  # splunk:
+  #   image: splunk/splunk:latest
+  #   container_name: splunk-enterprise
+  #   environment:
+  #     - SPLUNK_START_ARGS=--accept-license
+  #     - SPLUNK_PASSWORD=changeme
+  #   ports:
+  #     - "8000:8000"   # Splunk Web
+  #     - "8089:8089"   # Splunk Management Port
+  #     - "8088:8088"   # HTTP Event Collector
+  #   volumes:
+  #     - splunk-data:/opt/splunk/var
+  #   restart: unless-stopped
+
+# Optional: Volumes for Splunk data persistence
+# volumes:
+#   splunk-data:
